@@ -1,11 +1,851 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <meta http-equiv="refresh" content="0; url=menu.html">
-    <script>window.location.href = "main.html";</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATEMATIKA KELAS 3 SD</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variabel Warna */
+        :root {
+            --color-primary: #854932; /* Cokelat Tua */
+            --color-secondary: #CC7722; /* Oranye/Emas - Aksen */
+            --color-bg-light: #f4f7f6; /* Latar Belakang Terang */
+            --color-card-light: #ffffff; /* Card Terang */
+            --color-text-dark: #333333; /* Teks Gelap */
+            --color-error: #D9534F; /* Merah */
+            --color-success: #5CB85C; /* Hijau */
+            --color-shadow: rgba(0, 0, 0, 0.15); 
+            --sidebar-width: 250px; 
+            /* Warna Header Konsisten */
+            --color-header-light: #A0522D; /* Solid: Sienna */
+        }
+
+        /* Dark Theme Variables */
+        .dark-theme {
+            --color-primary: #D8D8D8; 
+            --color-secondary: #FFC94A; 
+            --color-bg-light: #202c33; 
+            --color-card-light: #2c3940; 
+            --color-text-dark: #f0f0f0; 
+            --color-shadow: rgba(0, 0, 0, 0.4); 
+            /* Warna Header Dark Konsisten */
+            --color-header-dark: #1f3a5f; /* Solid: Midnight Blue */
+        }
+
+        /* Reset dan Gaya Dasar */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-bg-light);
+            color: var(--color-text-dark);
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden; 
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--color-secondary);
+        }
+        
+        /* ---------------------------------------------------------- */
+        /* 1. CSS HEADER (Full Layar & Solid) */
+        /* ---------------------------------------------------------- */
+        .navbar {
+            background-image: url('head-bg.png'); 
+            background-size: cover; /* Memastikan gambar mengisi area sepenuhnya */
+            /* Menggunakan warna solid yang konsisten */
+            background-color: var(--color-header-light); 
+            color: white;
+            text-align: center; 
+            padding: 50px 30px; 
+            margin-bottom: 30px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+            position: relative;
+            
+            /* Mengubah properti agar full screen */
+            min-height: 100vh; /* Pastikan selalu minimal setinggi viewport */
+            height: auto; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            flex-direction: column; 
+        }
+
+        .dark-theme .navbar {
+            background-image: url('head-bg1.png'); 
+            background-size: cover; /* Memastikan gambar mengisi area sepenuhnya */
+            /* Menggunakan warna solid yang konsisten */
+            background-color: var(--color-header-dark); /* Warna header dark solid */
+        }
+
+        .navbar h1 {
+            margin-left: 0;      /* reset */
+            padding-left: 0;  
+            align-self: flex-start;  /* Geser ke kiri dalam container flex */
+            text-align: center;      /* Teks tetap rata tengah */
+            font-size: 3rem; 
+            font-weight: 700;
+            color: #ffffff; 
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .navbar p {
+            margin-left: 0;      /* reset */
+            padding-left: 0;  
+            align-self: flex-start;  /* Geser ke kiri dalam container flex */
+            text-align: center;      /* Teks tetap rata tengah */
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #f1f1f1;
+            max-width: 700px;
+            line-height: 1.6;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            margin: 0 auto;  /* Tetap margin auto untuk centering horizontal jika diperlukan, tapi align-self akan override */
+            margin-bottom: 30px;
+        }
+
+        .header-controls { 
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 12px; /* Jarak antar icon */
+        }
+
+        #theme-toggle, #home-toggle {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #theme-toggle:hover, #home-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        #game-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            background-color: var(--color-primary); /* Warna solid */
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        #game-toggle-btn:hover {
+            background-color: #6d412b; /* Sedikit lebih gelap */
+            transform: scale(1.05);
+        }
+
+
+        /* ---------------------------------------------------------- */
+        /* 2. & 3. CSS SIDEBAR & BUTTON FLASH */
+        /* ---------------------------------------------------------- */
+        #sidebar-nav {
+            position: fixed;
+            top: 0;
+            left: calc(-1 * var(--sidebar-width)); 
+            width: var(--sidebar-width); 
+            height: 100%;
+            background-color: var(--color-card-light); 
+            padding: 20px;
+            box-shadow: 2px 0 10px var(--color-shadow);
+            z-index: 998; 
+            overflow-y: auto;
+            transition: left 0.3s ease; 
+            border-right: 1px solid #eee;
+        }
+
+        .dark-theme #sidebar-nav {
+            background-color: #1e2830; 
+            border-right: 1px solid #333;
+        }
+        
+        .sidebar-open #sidebar-nav {
+            left: 0; 
+        }
+
+        #sidebar-nav h3 {
+            color: var(--color-primary);
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--color-secondary);
+            padding-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        #sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #sidebar-nav li a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--color-text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        #sidebar-nav li a:hover {
+            background-color: var(--color-secondary);
+            color: white;
+        }
+        
+        #sidebar-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background-color: var(--color-secondary);
+            color: white;
+            border: none;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        #sidebar-toggle:hover {
+            background-color: #e38d33;
+        }
+        .dark-theme #sidebar-toggle {
+            background-color: #444;   
+            color: #fff;              
+            border: 1px solid #666;   
+        }
+        
+        #content-wrapper {
+            margin-left: 0; 
+            transition: margin-left 0.3s ease;
+        }
+        .sidebar-open #content-wrapper {
+            margin-left: var(--sidebar-width); 
+        }
+        
+        /* CSS BUTTON & FLASH EFFECT */
+        .btn { 
+            padding: 10px 15px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s; 
+            position: relative; 
+            overflow: hidden; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+            display: inline-flex; /* Agar ikon dan teks sejajar */
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%; 
+            width: 50%; 
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5); 
+            transform: skewX(-30deg); 
+            transition: left 0.4s ease-in-out; 
+            pointer-events: none; 
+        }
+
+        .btn:hover:after {
+            left: 150%; 
+            transition: left 0.4s ease-in-out; 
+        }
+        
+        .btn-bab { background-color: #6d412b; color: white; } 
+        .btn-latihan { background-color: #FFC94A; color: var(--color-text-dark); } 
+        .btn-primary { background-color: var(--color-primary); color: white; }
+        .btn-disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* ---------------------------------------------------------- */
+        /* 3. & 5. CSS MODUL BAR (Card & Animasi Scroll) */
+        /* ---------------------------------------------------------- */
+        .content-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .modul-bar {
+            background-color: var(--color-card-light);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            box-shadow: 0 8px 20px var(--color-shadow); /* Card yang menonjol */
+            border-left: 6px solid var(--color-secondary); /* Aksen warna */
+            
+            /* Animasi Scroll: Default state (hidden) */
+            opacity: 0;
+            transform: translateY(50px); 
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .modul-bar.hidden {
+            opacity: 0;
+            transform: translateY(50px); 
+        }
+        
+        .modul-bar.modul-bar:not(.hidden) {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .modul-icon {
+            font-size: 3em;
+            color: var(--color-secondary);
+            padding-top: 5px;
+            min-width: 60px; /* Memastikan ikon punya ruang yang cukup */
+            text-align: center;
+        }
+
+        .modul-content h2 {
+            margin-top: 0;
+            color: var(--color-primary);
+        }
+        
+        .button-group {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        /* ---------------------------------------------------------- */
+        /* 4. CSS FOOTER (Sederhana tapi Bagus) */
+        /* ---------------------------------------------------------- */
+        footer { 
+            background: linear-gradient(to right, var(--color-primary), #6d412b); 
+            color: white; 
+            padding: 30px 20px; 
+            margin-top: 50px; 
+            font-size: 0.9em; 
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .dark-theme footer {
+            background: linear-gradient(to right, #1f3a5f, #3a5f85); /* Darker gradient for dark mode */
+        }
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            text-align: left;
+            padding-bottom: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .footer-section {
+            flex: 1;
+            padding: 0 15px;
+            min-width: 200px; 
+        }
+        .footer-section h4 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--color-secondary);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-section a {
+            color: #ddd;
+            transition: color 0.2s;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .footer-section a:hover {
+            color: var(--color-secondary);
+        }
+        .footer-bottom { 
+            text-align: center; 
+            padding-top: 15px; 
+        }
+
+        /* ---------------------------------------------------------- */
+        /* CSS Modal (AI & Quiz & Game) */
+        /* ---------------------------------------------------------- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1001; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: var(--color-card-light);
+            margin: 5% auto; 
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            position: relative;
+        }
+        .quiz-content {
+            max-width: 700px;
+        }
+        .close-btn {
+            color: var(--color-text-dark);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: var(--color-error);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        /* Quiz Specific Styles */
+        #question-area label {
+            display: block;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            font-weight: 500;
+        }
+        #question-area label:hover {
+            background-color: #f0f0f0;
+        }
+        .dark-theme #question-area label {
+             border-color: #444; 
+        }
+        .dark-theme #question-area label:hover {
+             background-color: #303030; 
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .dark-theme .progress-container {
+            background-color: #3e3e3e; 
+        }
+        .progress-bar {
+            height: 25px;
+            width: 0%;
+            background-color: var(--color-secondary);
+            transition: width 0.4s ease;
+        }
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            color: #333;
+            text-shadow: 0 0 2px white;
+        }
+        .dark-theme .progress-text {
+             color: var(--color-text-dark);
+             text-shadow: 0 0 2px black;
+        }
+        #quiz-controls {
+             display: flex;
+             justify-content: flex-end;
+             gap: 10px;
+             margin-top: 20px;
+        }
+        
+        /* Game Specific Styles */
+        .shuffled-word {
+            font-size: 2em;
+            letter-spacing: 10px;
+            margin: 20px 0;
+            text-align: center;
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+        #game-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border-radius: 6px;
+            border: 2px solid var(--color-primary);
+            text-align: center;
+        }
+        .game-status {
+             padding: 10px;
+             border-radius: 6px;
+             text-align: center;
+             margin-top: 15px;
+        }
+        .game-status.success { background-color: rgba(92, 184, 92, 0.1); color: var(--color-success); }
+        .game-status.error { background-color: rgba(217, 83, 79, 0.1); color: var(--color-error); }
+
+        /* ---------------------------------------------------------- */
+        /* MEDIA QUERIES */
+        /* ---------------------------------------------------------- */
+        @media (max-width: 900px) {
+            #sidebar-nav {
+                left: calc(-1 * var(--sidebar-width)) !important; 
+            }
+            #content-wrapper {
+                margin-left: 0 !important;
+            }
+            .navbar {
+                height: auto; /* Biarkan konten menentukan tinggi di layar kecil */
+                min-height: 60vh;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .modul-bar {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .modul-icon {
+                padding-top: 0;
+            }
+            .button-group {
+                justify-content: center;
+            }
+            #game-toggle-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2em;
+            }
+        }
+    </style>
 </head>
-<body>
-    <p>Loading...</p>
+<body class="light-theme">
+
+    <div id="notification-area" class="notification"></div>
+    <audio id="click-sound" src="click.mp3.mp3" preload="auto"></audio> 
+    
+    <button id="sidebar-toggle" aria-label="Toggle Navigation" title="Buka/Tutup Navigasi">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <nav id="sidebar-nav">
+        <h3>Navigasi Modul</h3>
+        <ul>
+            <li><a href="#modul-1" title="Bab 1: Bilangan Cacah"><i class="fas fa-sort-numeric-up"></i> Bab 1: Bilangan Cacah</a></li>
+            <li><a href="#modul-2" title="Bab 2: Kalimat Matematika"><i class="fas fa-pencil-alt"></i> Bab 2: Kalimat Matematika</a></li>
+            <li><a href="#modul-3" title="Bab 3: Pengukuran Panjang dan Berat"><i class="fas fa-duotone fa-light fa-ruler"></i> Bab 3: Pengukuran Panjang dan Berat</a></li>
+            <li><a href="#modul-4" title="Bab 4: Unsur-Unsur Bangun Datar"><i class="fas fa-duotone fa-regular fa-shapes"></i> Bab 4: Unsur-Unsur Bangun Datar</a></li>
+            <li><a href="#modul-5" title="Bab 5: Penyajian Data Dalam Tabel"><i class="fas fa-duotone fa-regular fa-chart-column"></i> Bab 5: Penyajian Data Dalam Tabel</a></li>
+        </ul>
+    </nav>
+    
+    <div id="content-wrapper">
+
+        <header class="navbar">
+            <div class="header-controls"> 
+                <button id="theme-toggle" aria-label="Toggle light and dark mode" title="Ganti Tema Warna">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <button id="home-toggle" aria-label="Home" title="Kembali ke Home">
+                    <i class="fas fa-house"></i>
+                </button>
+                <button id="game-toggle-btn" class="floating-btn" aria-label="Play Game" title="Play Game">
+                    <i class="fas fa-gamepad"></i>
+                </button>
+            </div>
+            
+            <div class="nav-center">
+                <h1>Matematika Kelas 3 Sekolah Dasar</h1>
+                <p>Pahami materi pada mata pembelajaran Matematika melalui video pembelajaran dan ujian kompetensi bersama lingkungan Arboretum Bambu.</p>
+                <a href="#modul-1" class="btn btn-cta btn-primary"><i class="fas fa-compass"></i> Mulai Belajar Sekarang</a>
+            </div>
+        </header>
+
+        <main class="content-container">
+            
+            <section class="modul-bar" id="modul-1">
+                <div class="modul-icon"><i class="fas fa-sort-numeric-up"></i></div>
+                <div class="modul-content">
+                    <h2>Bab 1: Bilangan Cacah</h2>
+                    <p>Pahami konsep bilangan cacah hingga 1.000 serta berbagai operasi dasar yang menyertainya.</p>
+                    <div class="button-group">
+                        <a href="bab_1.html" class="btn btn-bab" data-modul="1" title="Mulai Belajar Bab 1">
+                            <i class="fa-solid fa-book"></i> Mulai Belajar
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="modul-bar" id="modul-2">
+                <div class="modul-icon"><i class="fas fa-pencil-alt"></i></div>
+                <div class="modul-content">
+                    <h2>Bab 2: Kalimat Matematika</h2>
+                    <p>Pahami cara membaca, membuat, dan menyelesaikan kalimat matematika dasar seperti penjumlahan dan pengurangan.</p>
+                    <div class="button-group">
+                        <a href="bab_2.html" class="btn btn-bab" data-modul="2" title="Mulai Belajar Bab 2">
+                            <i class="fa-solid fa-book"></i> Mulai Belajar
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="modul-bar" id="modul-3">
+                <div class="modul-icon"><i class="fas fa-duotone fa-light fa-ruler"></i></div>
+                <div class="modul-content">
+                    <h2>Bab 3: Pengukuran Panjang dan Berat</h2>
+                    <p>Pahami cara mengukur panjang dan berat menggunakan satuan baku.</p>
+                    <div class="button-group">
+                        <a href="bab_3.html" class="btn btn-bab" data-modul="3" title="Mulai Belajar Bab 3">
+                            <i class="fa-solid fa-book"></i> Mulai Belajar
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="modul-bar" id="modul-4">
+                <div class="modul-icon"><i class="fas fa-duotone fa-regular fa-shapes"></i></div>
+                <div class="modul-content">
+                    <h2>Bab 4: Unsur-Unsur Bangun Datar</h2>
+                    <p>Pelajari garis, sudut, dan unsur pembentuk bangun datar.</p>
+                    <div class="button-group">
+                        <a href="bab_4.html" class="btn btn-bab" data-modul="4" title="Mulai Belajar Bab 4">
+                            <i class="fa-solid fa-book"></i> Mulai Belajar
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="modul-bar" id="modul-5">
+                <div class="modul-icon"><i class="fas fa-duotone fa-regular fa-chart-column"></i></div> 
+                <div class="modul-content">
+                    <h2>Bab 5: Penyajian Data Dalam Tabel</h2>
+                    <p>Pelajari cara menyusun, membaca, dan membandingkan data sederhana.</p>
+                    <div class="button-group modul-5-controls">
+                        <a href="bab_5.html" class="btn btn-bab" data-modul="5" title="Mulai Belajar Bab 5">
+                            <i class="fa-solid fa-book"></i> Mulai Belajar
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <div class="footer-content">
+
+                <div class="footer-section">
+                    <h4>Tentang Modul</h4>
+                    <p>Sistem ini dirancang untuk mempermudah pemahaman siswa pada mata pelajaran Matematika Kelas 3 jenjang Sekolah Dasar.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Bantuan & Dukungan</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Kontak Kami</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Ikuti Kami</h4>
+                    <ul>
+                        <li><a href="https://www.linkedin.com/in/salma-nurkamila-5a94a1297"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+                        <li><a href="https://www.instagram.com/salma_nurkamila__?igsh=bzRqbnoyZzJiNHl6&utm_source=qr"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; Salma Nurkamila_2308956_MEDIA PEMBELAJARAN MATEMATIKA.</p>
+            </div>
+        </footer>
+
+    </div> 
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // === DOM Elements ===
+        const body = document.body;
+        const themeToggle = document.getElementById('theme-toggle');
+        const clickSound = document.getElementById('click-sound'); 
+        const modulBars = document.querySelectorAll('.modul-bar'); 
+        const sidebarToggle = document.getElementById('sidebar-toggle'); 
+        const sidebarNav = document.getElementById('sidebar-nav');
+        const contentWrapper = document.getElementById('content-wrapper');
+        const notificationArea = document.getElementById('notification-area');
+        const gameToggle = document.getElementById('game-toggle-btn');
+        const gameModal = document.getElementById('game-modal');
+        const closeGameModal = document.getElementById('close-game-modal');
+
+
+        // Game Elements
+        const shuffledWordEl = document.getElementById('shuffled-word');
+        const gameInput = document.getElementById('game-input');
+        const gameStatus = document.getElementById('game-status');
+        const gameScore = document.getElementById('game-score');
+        const checkAnswer = document.getElementById('check-answer');
+        const nextWord = document.getElementById('next-word');
+
+        // Daftar kata
+        const words = ["BILANGAN","CACAH","PENJUMLAHAN","PENGURANGAN","PERKALIAN","PEMBAGIAN","PANJANG","BERAT","LITER","KILOGRAM","METER","CENTIMETER","SEGITIGA","PERSEGI","LINGKARAN","SUDUT","SISI","TITIK","TABEL","DIAGRAM","BATANG","GARIS"];
+
+        let currentWord = "";
+        let score = 0;
+
+        function playClickSound() {
+            if (!clickSound) return;
+            const sound = clickSound.cloneNode();
+            sound.volume = 0.7; // opsional
+            sound.play().catch(() => {});
+        }
+
+        document.querySelectorAll(`
+            button,
+            .btn,
+            a,
+            #sidebar-toggle,
+            #theme-toggle,
+            #home-toggle,
+            #game-toggle-btn
+        `).forEach(el => {
+            el.addEventListener('click', function (e) {
+
+                playClickSound();
+
+                // Jika elemen adalah link pindah halaman (seperti Mulai Belajar)
+                if (this.tagName === 'A' && this.href) {
+                    e.preventDefault();
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 300);
+                }
+
+            });
+        });
+
+        const toggleSidebar = () => {
+            body.classList.toggle('sidebar-open');
+
+            const isSidebarOpen = body.classList.contains('sidebar-open');
+            sidebarToggle.innerHTML = isSidebarOpen
+                ? '<i class="fas fa-times"></i>'
+                : '<i class="fas fa-bars"></i>';
+
+            };
+
+            sidebarToggle.addEventListener('click', toggleSidebar);
+
+            contentWrapper.addEventListener('click', () => {
+                if (body.classList.contains('sidebar-open')) {
+                    toggleSidebar();
+                }
+        });
+
+        const shuffleWord = (word) => {
+            return word.split('').sort(() => 0.5 - Math.random()).join('');
+        };
+
+        const newWord = () => {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            shuffledWordEl.textContent = shuffleWord(currentWord);
+            gameInput.value = '';
+            gameInput.focus();
+            gameStatus.textContent = '';
+            gameStatus.className = 'game-status';
+            checkAnswer.style.display = 'inline-block';
+            nextWord.style.display = 'none';
+        };
+
+
+
+        // Theme toggle
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            const isDark = body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-theme');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+
+
+
+        document.getElementById('home-toggle').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        document.getElementById('game-toggle-btn').addEventListener('click', () => {
+            setTimeout(() => {
+                window.location.href = 'game.html';
+            }, 300);
+        });
+
+        if (gameModal && closeGameModal) {
+        closeGameModal.addEventListener('click', () => {
+            gameModal.style.display = 'none';
+            playClickSound();
+        });
+    }
+
+
+
+    });
+
+
+</script>
 </body>
 </html>

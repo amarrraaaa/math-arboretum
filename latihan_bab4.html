@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Soal - Bab 4: Unsur-Unsur Bangun Datar</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+          /* Variabel Warna */
+        :root {
+            --color-primary: #854932; /* Cokelat Tua */
+            --color-secondary: #CC7722; /* Oranye/Emas - Aksen */
+            --color-bg-light: #f4f7f6; /* Latar Belakang Terang */
+            --color-card-light: #ffffff; /* Card Terang */
+            --color-text-dark: #333333; /* Teks Gelap */
+            --color-error: #D9534F; /* Merah */
+            --color-success: #5CB85C; /* Hijau */
+            --color-shadow: rgba(0, 0, 0, 0.15); 
+            --sidebar-width: 250px; 
+            /* Warna Header Konsisten */
+            --color-header-light: #A0522D; /* Solid: Sienna */
+        }
+
+        /* Dark Theme Variables */
+        .dark-theme {
+            --color-primary: #D8D8D8; 
+            --color-secondary: #FFC94A; 
+            --color-bg-light: #202c33; 
+            --color-card-light: #2c3940; 
+            --color-text-dark: #f0f0f0; 
+            --color-shadow: rgba(0, 0, 0, 0.4); 
+            /* Warna Header Dark Konsisten */
+            --color-header-dark: #1f3a5f; /* Solid: Midnight Blue */
+        }
+
+        /* Reset dan Gaya Dasar */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-bg-light);
+            color: var(--color-text-dark);
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden; 
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--color-secondary);
+        }
+        
+        /* Header */
+        .navbar {
+            background-image: url('head-bg.png');
+            background-size: cover;
+            background-color: var(--color-header-light); 
+            color: white;
+            text-align: center; 
+            padding: 50px 30px; 
+            margin-bottom: 30px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+            position: relative;
+            min-height: 100vh; 
+            height: auto; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            flex-direction: column; 
+        }
+
+        .navbar h1 {
+            margin-left: 63px;   
+            margin-right: 63px;   
+            padding-left: 0;  
+            align-self: flex-start;  
+            text-align: center;      
+            font-size: 3rem; 
+            font-weight: 700;
+            color: white; 
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .navbar p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            margin-top: 15px;
+            padding: 10px 15px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s; 
+            position: relative; 
+            overflow: hidden; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+            display: inline-flex; 
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%; 
+            width: 50%; 
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5); 
+            transform: skewX(-30deg); 
+            transition: left 0.4s ease-in-out; 
+            pointer-events: none; 
+        }
+
+        .btn:hover:after {
+            left: 150%; 
+            transition: left 0.4s ease-in-out; 
+        }
+        
+        .btn-bab { background-color: #6d412b; color: white; } 
+        .btn-latihan { background-color: #FFC94A; color: var(--color-text-dark); } 
+        .btn-primary { background-color: var(--color-primary); color: white; }
+        .btn-disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Quiz Content */
+        .quiz-content {
+            background-color: var(--color-card-light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px var(--color-shadow);
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar div {
+            height: 100%;
+            background-color: var(--color-secondary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .question-area {
+            margin-bottom: 20px;
+        }
+
+        .question-area h4 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background-color: #e0e0e0;
+        }
+
+        .option.selected {
+            background-color: var(--color-secondary);
+            color: white;
+        }
+
+        .quiz-controls {
+            margin-top: 20px;
+        }
+
+        .quiz-result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+        }
+
+        .quiz-result h3 {
+            margin-bottom: 10px;
+        }
+
+        .quiz-result p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <h1>Latihan Soal</h1>
+        <p>Bab 4: Unsur-Unsur Bangun Datar - Kerjakan soal dengan baik!</p>
+        <a href="bab_4.html" id="back-to-bab1" class="btn btn-cta btn-latihan"><i class="fas fa-arrow-left"></i> Kembali ke Bab 4</a>
+    </header>
+
+    <div class="quiz-content">
+        <h3>Latihan Singkat Unsur-Unsur Bangun Datar</h3>
+        <div class="progress-container">
+            <div class="progress-bar" id="quiz-progress"></div>
+            <div class="progress-text" id="quiz-progress-text">Soal 0 dari 3</div>
+        </div>
+        <div id="question-area">
+            <!-- Soal akan dimuat di sini -->
+        </div>
+        <div id="quiz-controls">
+            <button class="btn btn-cta btn-primary" id="next-question-btn" disabled title="Lanjut ke soal berikutnya">Soal Selanjutnya</button> 
+            <button class="btn btn-cta btn-latihan" id="submit-quiz-btn" style="display: none;" title="Selesaikan latihan dan lihat skor">Selesai & Cek Skor</button>
+        </div>
+        <div id="quiz-result" class="ai-response-area" style="display: none;">
+            <!-- Hasil akan dimuat di sini -->
+        </div>
+    </div>
+
+    <script>
+        const questionBanks = {
+            '1': [
+                { text: "Lantai gazebo bambu berbentuk persegi. Persegi memiliki…", options: ["2 sisi", "3 sisi", "4 sisi", "5 sisi"], answer: "4 sisi", image: "image_soal/B4-A-1.jpg" },
+                { text: "Atap bambu bagian samping berbentuk segitiga. Segitiga memiliki…", options: ["2 sisi", "3 sisi", "4 sisi", "5 sisi"], answer: "3 sisi", image: "image_soal/B4-A-2.jpg" },
+                { text: "Di Arboretum, bangku taman memiliki alas berbentuk persegi panjang. Bangun persegi panjang tersebut memiliki…", options: ["2 sisi", "3 sisi", "4 sisi", "5 sisi"], answer: "4 sisi", image: "image_soal/B4-A-3.png" },
+            ],
+            '2': [
+                { text: "Balai bambu memiliki sudut 90° seperti…", options: ["Sudut tumpul", "Sudut lancip", "Sudut siku-siku", "Sudut membesar"], answer: "Sudut siku-siku", image: "image_soal/B4-B-1.png" },
+                { text: "Bagian ujung daun bambu yang runcing membentuk…", options: ["Sudut lancip", "Sudut tumpul", "Sudut siku-siku", "Sudut lurus"], answer: "Sudut lancip", image: "image_soal/B4-B-2.png" },
+                { text: "Sudut yang besarnya 180° disebut …", options: ["Sudut lancip", "Sudut tumpul", "Sudut lurus", "Sudut siku-siku"], answer: "Sudut lurus" },
+            ],
+            '3': [
+                { text: "Dua batang bambu yang berdiri saling bersilangan tetapi membentuk sudut 90° disebut…", options: ["Sejajar", "Tegak lurus", "Membentuk lengkung", "Berpotongan miring"], answer: "Tegak lurus"},
+                { text: "Tiga batang bambu yang berdiri dengan jarak sama dan tidak bertemu disebut…", options: ["Berpotongan", "Berkelok", "Sejajar", "Silang"], answer: "Sejajar", image: "image_soal/B4-C-2.png" },
+                { text: "Dua bambu yang bersilangan tetapi tidak membentuk sudut 90° termasuk…", options: ["Tegak lurus", "Sejajar", "Berpotongan", "Menyiku"], answer: "Berpotongan", image: "image_soal/B4-C-3.png" },
+            ]
+        };
+
+        let currentQuestionIndex = 0;
+        let userAnswers = Array(3).fill(null);
+        let activeQuestions = [];
+
+        // Fungsi untuk mendapatkan parameter URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Fungsi untuk memulai latihan
+        function startQuiz() {
+            const modul = getQueryParam('modul') || '1'; // Default ke '1' jika tidak ada
+            const questions = questionBanks[modul] || questionBanks['1'];
+            activeQuestions = questions.slice().sort(() => Math.random() - 0.5);
+            activeQuestions = activeQuestions.slice(0, 3); // Pastikan 3 soal
+            currentQuestionIndex = 0;
+            userAnswers = Array(3).fill(null);
+            
+            // Update judul berdasarkan modul
+            const titles = {
+                '1': 'Sisi pada Bangun Datar',
+                '2': 'Sudut pada Bidang Datar',
+                '3': 'Garis-Garis Tegak Lurus dan Garis-Garis Sejajar'
+            };
+            document.querySelector('h1').textContent = `Latihan Soal - ${titles[modul] || titles['1']}`;
+            
+            renderQuestion(currentQuestionIndex);
+            updateProgress();
+        }
+
+        // Render soal
+        // Render soal
+        function renderQuestion(index) {
+            const question = activeQuestions[index];
+            const questionArea = document.getElementById('question-area');
+            const imageHtml = question.image ? `<img src="${question.image}" alt="Gambar Soal" style="max-width: 100%; height: auto; margin-bottom: 20px; border-radius: 8px;">` : '';
+            questionArea.innerHTML = `
+                <!-- <h4>Soal //${index + 1} dari 3:</h4> -->
+                ${imageHtml}
+                <p>${question.text}</p>
+                <div class="options">
+                    ${question.options.map((option, i) => `
+                        <div class="option" data-index="${i}" onclick="selectOption(${i})">${option}</div>
+                    `).join('')}
+                </div>
+            `;
+            updateNextButton();
+        }
+
+        // Pilih opsi
+        function selectOption(index) {
+            userAnswers[currentQuestionIndex] = index;
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                opt.classList.toggle('selected', i === index);
+            });
+            updateNextButton();
+        }
+
+        function checkAnswerAndPlaySound() {
+            const userIndex = userAnswers[currentQuestionIndex];
+            const correctIndex = activeQuestions[currentQuestionIndex].options
+                .indexOf(activeQuestions[currentQuestionIndex].answer);
+
+            if (userIndex === correctIndex) {
+                playSound('benar');
+            } else {
+                playSound('salah');
+            }
+        }
+
+
+        // Update tombol next
+        function updateNextButton() {
+            const nextBtn = document.getElementById('next-question-btn');
+            const submitBtn = document.getElementById('submit-quiz-btn');
+            const isAnswered = userAnswers[currentQuestionIndex] !== null;
+            nextBtn.disabled = !isAnswered;
+            if (currentQuestionIndex === 2) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'inline-block';
+            } else {
+                nextBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        const backBtn = document.getElementById('back-to-bab1');
+
+        backBtn.addEventListener('click', function (e) {
+            e.preventDefault(); // tahan navigasi sebentar
+
+            const clickSound = new Audio('click.mp3.mp3');
+            clickSound.play().catch(() => {});
+
+            setTimeout(() => {
+                window.location.href = this.href;
+            }, 300); // delay agar suara terdengar
+        });
+
+        // Update progress
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / 3) * 100;
+            document.getElementById('quiz-progress').style.width = progress + '%';
+            document.getElementById('quiz-progress-text').textContent = `Soal ${currentQuestionIndex + 1} dari 3`;
+        }
+
+        // Next question
+        document.getElementById('next-question-btn').addEventListener('click', () => {
+            checkAnswerAndPlaySound(); 
+
+            setTimeout(() => {
+                if (currentQuestionIndex < 2) {
+                    currentQuestionIndex++;
+                    renderQuestion(currentQuestionIndex);
+                    updateProgress();
+                }
+            }, 600);
+        });
+
+        // Submit quiz
+        document.getElementById('submit-quiz-btn').addEventListener('click', () => {
+            checkAnswerAndPlaySound(); // 🔊 suara soal terakhir
+
+            setTimeout(() => {
+                showResult();
+            }, 600);
+        });
+
+
+        // Show result
+        function showResult() {
+            const { correctCount, total } = calculateResult();
+            const score = (correctCount / total) * 100;
+            const resultArea = document.getElementById('quiz-result');
+            resultArea.style.display = 'block';
+            resultArea.innerHTML = `
+                <h3>Hasil Latihan</h3>
+                <p>Total Soal Dijawab: <strong>${total}</strong></p>
+                <p>Jawaban Benar: <strong style="color: var(--color-success);">${correctCount}</strong></p>
+                <p>Jawaban Salah: <strong style="color: var(--color-error);">${total - correctCount}</strong></p>
+                <p>Skor: <strong>${score.toFixed(0)}%</strong></p>
+                <p>${score >= 70 ? 'Bagus! Kamu lulus latihan.' : 'Coba lagi untuk meningkatkan skor.'}</p>
+            `;
+            document.getElementById('quiz-controls').style.display = 'none';
+        }
+
+        // Calculate result
+        function calculateResult() {
+            let correctCount = 0;
+            for (let i = 0; i < 3; i++) {
+                const userAnswer = userAnswers[i];
+                const correctAnswer = activeQuestions[i].options.indexOf(activeQuestions[i].answer);
+                if (userAnswer === correctAnswer) correctCount++;
+            }
+            return { correctCount, total: 3 };
+        }
+
+        // Play sound function
+        function playSound(type) {
+            const audio = new Audio(`sound/${type}.mp3`);
+            audio.play();
+        }
+
+        // Start quiz on load
+        window.onload = startQuiz;
+    </script>
+</body>
+</html></content>
