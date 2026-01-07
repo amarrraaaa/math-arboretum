@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bab 3: Kubus dan Balok</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation with Bamboo Theme */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #6d4c2a 0%, #8b5a2b 50%, #6d4c2a 100%);
+            padding: 30px 20px;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        /* Bamboo Pattern on Sidebar */
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 60px,
+                    rgba(122, 155, 78, 0.15) 60px,
+                    rgba(122, 155, 78, 0.15) 65px
+                );
+            pointer-events: none;
+        }
+
+        .sidebar-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Back Button */
+        .back-btn {
+            background: linear-gradient(145deg, #d4a574, #c4955a);
+            border: 3px solid #5d3a1a;
+            border-radius: 10px;
+            padding: 12px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #3a2a1a;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .back-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Chapter Title in Sidebar */
+        .sidebar-title {
+            color: #7a9b4e;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar-subtitle {
+            color: #d4a574;
+            font-size: 0.95em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Topic Navigation Menu */
+        .topic-nav {
+            list-style: none;
+        }
+
+        .topic-nav-item {
+            margin-bottom: 15px;
+        }
+
+        .topic-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(212, 165, 116, 0.2);
+            border-left: 4px solid #7a9b4e;
+            border-radius: 8px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .topic-nav-link:hover,
+        .topic-nav-link.active {
+            background: rgba(212, 165, 116, 0.4);
+            border-left-width: 8px;
+            transform: translateX(5px);
+        }
+
+        .topic-nav-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(145deg, #f4a460, #d4884a);
+            border: 3px solid #5d3a1a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .topic-nav-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: #3a2a1a;
+        }
+
+        .topic-nav-text {
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #8b5a2b 0%, #a67c52 100%);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(122, 155, 78, 0.2) 0%, transparent 70%);
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-title {
+            color: #7a9b4e;
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-description {
+            color: #d4a574;
+            font-size: 1.3em;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        /* Topic Content Sections */
+        .topic-section {
+            margin-bottom: 50px;
+            scroll-margin-top: 100px;
+        }
+
+        .topic-header-main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Bamboo decorative corner */
+        .topic-header-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                #7a9b4e 0%,
+                #8ba85f 25%,
+                #7a9b4e 50%,
+                #8ba85f 75%,
+                #7a9b4e 100%
+            );
+        }
+
+        .topic-header-main::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 3px;
+            background: #4a5f2e;
+            box-shadow:
+                0 25% 0 #4a5f2e,
+                0 50% 0 #4a5f2e,
+                0 75% 0 #4a5f2e;
+        }
+
+        .topic-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #7a9b4e, #8ba85f);
+            border: 5px solid #5d7a3a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
+        }
+
+        .topic-title-main {
+            flex: 1;
+        }
+
+        .topic-title-main h2 {
+            font-size: 2.2em;
+            color: #6d4c2a;
+            margin-bottom: 10px;
+        }
+
+        .topic-title-main p {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Content Cards Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border-top: 4px solid #7a9b4e;
+        }
+
+        .content-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .content-card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #f4a460, #d4884a);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .content-card-icon svg {
+            width: 35px;
+            height: 35px;
+            fill: #5d3a1a;
+        }
+
+        .content-card h3 {
+            font-size: 1.4em;
+            color: #6d4c2a;
+            margin-bottom: 15px;
+        }
+
+        .content-card p {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        /* Action Buttons */
+        .action-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+            justify-items: center;
+        }
+
+        .action-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 180px;
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-video {
+            background: linear-gradient(145deg, #ff7043, #f4511e);
+            color: white;
+        }
+
+        .btn-video svg {
+            fill: white;
+        }
+
+        .btn-exercise {
+            background: linear-gradient(145deg, #ffd54f, #ffc107);
+            color: #5d3a1a;
+        }
+
+        .btn-exercise svg {
+            fill: currentColor;
+        }
+
+        /* Floating Bamboo Decorations */
+        .bamboo-float {
+            position: fixed;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bamboo-float-1 {
+            width: 120px;
+            height: 600px;
+            background: linear-gradient(to right, #7a9b4e, #8ba85f, #7a9b4e);
+            border-radius: 60px;
+            right: 50px;
+            top: 100px;
+            transform: rotate(10deg);
+        }
+
+        .bamboo-float-2 {
+            width: 100px;
+            height: 500px;
+            background: linear-gradient(to right, #7a9b4e, #8ba85f, #7a9b4e);
+            border-radius: 50px;
+            right: 200px;
+            bottom: 100px;
+            transform: rotate(-15deg);
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #d4a574, #c4955a);
+            border: 3px solid #6d4c2a;
+            border-radius: 12px;
+            cursor: pointer;
+            z-index: 999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-menu-btn span {
+            width: 30px;
+            height: 3px;
+            background: #3a2a1a;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-banner {
+                padding: 30px 20px;
+            }
+
+            .hero-title {
+                font-size: 2em;
+            }
+
+            .hero-description {
+                font-size: 1.1em;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topic-header-main {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .action-buttons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #8b5a2b;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6d4c2a;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn" onclick="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Floating Bamboo Decorations -->
+    <div class="bamboo-float bamboo-float-1"></div>
+    <div class="bamboo-float bamboo-float-2"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+            <button class="back-btn" onclick="window.location.href='home.html'">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+                Kembali ke Daftar Modul
+            </button>
+
+            <h1 class="sidebar-title">Bab 3</h1>
+            <p class="sidebar-subtitle">Kubus dan Balok</p>
+
+            <nav>
+                <ul class="topic-nav">
+                    <li class="topic-nav-item">
+                        <a href="#topic1" class="topic-nav-link active" onclick="setActive(this)">
+                            <div class="topic-nav-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M21 16V8c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm-11-4h4v4h-4v-4z"/>
+                                </svg>
+                            </div>
+                            <span class="topic-nav-text">Mengonstruksi & Mengurai</span>
+                        </a>
+                    </li>
+                    <li class="topic-nav-item">
+                        <a href="#topic2" class="topic-nav-link" onclick="setActive(this)">
+                            <div class="topic-nav-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                            </div>
+                            <span class="topic-nav-text">Visualisasi Spasial</span>
+                        </a>
+                    </li>
+                    <li class="topic-nav-item">
+                        <a href="#topic3" class="topic-nav-link" onclick="setActive(this)">
+                            <div class="topic-nav-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>
+                            </div>
+                            <span class="topic-nav-text">Lokasi</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="hero-content">
+                <h1 class="hero-title">Kubus dan Balok</h1>
+                <p class="hero-description">
+                    Pelajari cara mengonstruksi dan mengurai bentuk kubus serta balok, kembangkan kemampuan 
+                    visualisasi spasial untuk memahami bentuk 3 dimensi, dan tentukan lokasi objek dalam ruang!
+                </p>
+            </div>
+        </div>
+
+        <!-- Topic 1: Mengonstruksi dan Mengurai -->
+        <section class="topic-section" id="topic1">
+            <div class="topic-header-main">
+                <div class="topic-number">1</div>
+                <div class="topic-title-main">
+                    <h2>Mengonstruksi dan Mengurai</h2>
+                    <p>Membangun dan membongkar struktur kubus dan balok</p>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="content-card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                    </div>
+                    <h3>Video Pembelajaran</h3>
+                    <p>Pelajari cara membuat jaring-jaring kubus dan balok serta memahami bagaimana bentuk 2D dapat dilipat menjadi bentuk 3D.</p>
+                    <div class="action-buttons-grid">
+                        <button class="action-btn btn-video" onclick="window.location.href= 'https://youtu.be/WlhuTRDZcLU?si=413e9s70mL5cdU0V'">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                            </svg>
+                            Video
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="content-card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 16V8c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM5 8h14v8H5V8zm2 2h2v4H7v-4zm4 0h2v4h-2v-4zm4 0h2v4h-2v-4z"/>
+                        </svg>
+                    </div>
+                    <h3>Latihan</h3>
+                    <p>Ayo aplikasikan pemahamanmu dengan latihan langsung!</p>
+                    <div class="action-buttons-grid">
+                        <button class="action-btn btn-exercise" onclick="window.location.href='latihan_mengonstruksi3.html'">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                            </svg>
+                            Latihan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Topic 2: Visualisasi Spasial -->
+        <section class="topic-section" id="topic2">
+            <div class="topic-header-main">
+                <div class="topic-number">2</div>
+                <div class="topic-title-main">
+                    <h2>Visualisasi Spasial</h2>
+                    <p>Mengembangkan kemampuan membayangkan bentuk 3 dimensi</p>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="content-card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h3>Video Pembelajaran</h3>
+                    <p>Pelajari cara melihat kubus dan balok dari berbagai sudut pandang: depan, samping, dan atas.</p>
+                    <div class="action-buttons-grid">
+                        <button class="action-btn btn-video" onclick="window.location.href='https://youtu.be/2Q_z-X7wn2Y?si=pi-bfc8JtEiaTgAr'">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                            </svg>
+                            Video
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="content-card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                    </div>
+                    <h3>Latihan</h3>
+                    <p>Ayo aplikasikan pemahamanmu dengan latihan langsung!</p>
+                    <div class="action-buttons-grid">
+                        <button class="action-btn btn-exercise" onclick="window.location.href='latihan_visualisasi3.html' ">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                            </svg>
+                            Latihan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Topic 3: Lokasi -->
+        <section class="topic-section" id="topic3">
+            <div class="topic-header-main">
+                <div class="topic-number">3</div>
+                <div class="topic-title-main">
+                    <h2>Lokasi</h2>
+                    <p>Menentukan posisi dan letak objek dalam ruang 3 dimensi</p>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="content-card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+                        </svg>
+                    </div>
+                    <h3>Video Pembelajaran</h3>
+                    <p>Pelajari cara menentukan posisi titik dalam ruang menggunakan sistem koordinat 3 dimensi (x, y, z).</p>
+                    <div class="action-buttons-grid">
+                        <button class="action-btn btn-video" onclick="window.location.href='https://youtu.be/cqb63ma5-c4?si=C6uL0f75vU04FVBN'">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                            </svg>
+                            Video
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="content-card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                    </div>
+                    <h3>Latihan</h3>
+                    <p>Ayo aplikasikan pemahamanmu dengan latihan langsung!</p>
+                    <div class="action-buttons-grid">
+                        <button class="action-btn btn-exercise" onclick="window.location.href='latihan_lokasi3.html'">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                            </svg>
+                            Latihan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Set active navigation link
+        function setActive(element) {
+            document.querySelectorAll('.topic-nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            element.classList.add('active');
+            
+            if (window.innerWidth <= 1024) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Highlight active section on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.topic-section');
+            const navLinks = document.querySelectorAll('.topic-nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Entrance animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(30px)';
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+        document.querySelectorAll('.content-card, .topic-header-main').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
